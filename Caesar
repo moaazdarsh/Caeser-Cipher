@@ -1,0 +1,58 @@
+alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',' ']
+
+def Caesar_Cipher(text, key):
+
+    #Creating the cipher
+    code = []
+    key = key % len(alphabet)
+    index = -1 * (len(alphabet) - key)
+    
+    while index < key:
+        code.append(alphabet[index])
+        index += 1
+    
+    #using caesar cipher
+    encrypted = ""
+    for l in text:
+        encrypted += (code[alphabet.index(l)])
+
+    return encrypted
+
+def decrypt(encrypted,key):
+    key = len(alphabet) - key % len(alphabet)
+    return Caesar_Cipher(encrypted, key)
+
+def Complex_Cipher(text, key, inc):
+    #using a cipher with an increasing key
+    encrypted = ""
+    for l in text:
+        encrypted += Caesar_Cipher(l, key)
+        key += inc
+    
+    return encrypted
+        
+
+while True:
+    Decrypt_Or_Encrypt = input("d or e?")
+
+    if Decrypt_Or_Encrypt == "e":
+
+        text = input("text:")
+        keys = input("encryption:").split(",")
+    
+        Starting_Cipher = int(keys[0])
+        increment = int(keys[1])
+    
+        Encrypted_text = Complex_Cipher(text, Starting_Cipher, increment)
+        print(Encrypted_text)
+    elif Decrypt_Or_Encrypt == "d":
+
+        Encrypted_text = input("encrypted text:")
+        keys = input("encryption:").split(",")
+
+        Starting_Cipher = int(keys[0])
+        increment = int(keys[1])
+
+        text = decrypt(Encrypted_text, Starting_Cipher)
+
+        print(text)
