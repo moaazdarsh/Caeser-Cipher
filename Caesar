@@ -22,15 +22,19 @@ def decrypt(encrypted,key):
     key = len(alphabet) - key % len(alphabet)
     return Caesar_Cipher(encrypted, key)
 
-def Complex_Cipher(text, key, inc):
+def Complex_Cipher(text, Startingkey, inc):
     #using a cipher with an increasing key
     encrypted = ""
     for l in text:
-        encrypted += Caesar_Cipher(l, key)
-        key += inc
+        encrypted += Caesar_Cipher(l, Startingkey)
+        Startingkey += inc
     
     return encrypted
-        
+
+def Complex_decrypt(encrypted, Startingkey, inc):
+    Startingkey = len(alphabet) - Startingkey % len(alphabet)
+    inc *= -1
+    return Complex_Cipher(encrypted, Startingkey, inc)
 
 while True:
     Decrypt_Or_Encrypt = input("d or e?")
@@ -38,7 +42,7 @@ while True:
     if Decrypt_Or_Encrypt == "e":
 
         text = input("text:")
-        keys = input("encryption:").split(",")
+        keys = input("key, increment:").split(",")
     
         Starting_Cipher = int(keys[0])
         increment = int(keys[1])
@@ -48,11 +52,11 @@ while True:
     elif Decrypt_Or_Encrypt == "d":
 
         Encrypted_text = input("encrypted text:")
-        keys = input("encryption:").split(",")
+        keys = input("key, increment:").split(",")
 
         Starting_Cipher = int(keys[0])
         increment = int(keys[1])
 
-        text = decrypt(Encrypted_text, Starting_Cipher)
+        text = Complex_decrypt(Encrypted_text, Starting_Cipher, increment)
 
         print(text)
